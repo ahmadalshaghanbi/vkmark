@@ -3,26 +3,25 @@ name: build
 on:
   push:
     branches:
-    - master
+    - glslang
   pull_request:
     branches:
-    - master
+    - glslang
 
 jobs:
   build:
     strategy:
       matrix:
-        os: [ubuntu-22.04, ubuntu-24.04]
+        os: [ ubuntu-22.04, ubuntu-24.04 ]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v1
+    - name: Prepare repos
+      run: ./scripts/gh-actions/add-vulkan-repo.sh
     - name: Install dependencies
-      run: >
-        sudo apt install meson libvulkan-dev libglm-dev libassimp-dev
-        libxcb1-dev libxcb-icccm4-dev libwayland-dev wayland-protocols
-        libdrm-dev libgbm-dev
+      run: ./scripts/gh-actions/install-packages.sh
     - name: Setup
-      run: meson setup build
+      run: meson setup build -Dbuild-tests=true
     - name: Build
       run: ninja -C build
     - name: Run tests
