@@ -1,7 +1,4 @@
-install_subdir(
-    'shaders',
-    install_dir : join_paths([get_option('datadir'), 'vkmark'])
-    )
+subdir('shaders/')
 
 install_subdir(
     'models',
