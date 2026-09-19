@@ -42,7 +42,9 @@ build_kms_ws = libdrm_dep.found() and gbm_dep.found() and get_option('kms') != '
 
 subdir('src')
 subdir('data')
-subdir('tests')
+if get_option('build-tests')
+  subdir('tests')
+endif
 subdir('doc')
 
 devenv = environment()
@@ -50,18 +52,18 @@ devenv.set('VKMARK_WINDOW_SYSTEM_DIR', meson.current_build_dir() / 'src')
 devenv.set('VKMARK_DATA_DIR', meson.current_source_dir() / 'data')
 meson.add_devenv(devenv)
 
-msg = 'Building with support for the following window systems: headless display '
+wsi_list=['headless', 'display']
 
 if build_wayland_ws
-    msg += 'wayland '
+    wsi_list += 'wayland'
 endif
 
 if build_xcb_ws
-    msg += 'xcb '
+    wsi_list += 'xcb'
 endif
 
 if build_kms_ws
-    msg += 'kms '
+    wsi_list += 'kms'
 endif
 
-message(msg)
+message('Building with support for the following window systems: @0@'.format(' '.join(wsi_list)))

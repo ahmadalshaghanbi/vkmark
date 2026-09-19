@@ -1,3 +1,4 @@
 option('xcb', type : 'combo', choices : ['auto', 'true', 'false'], value : 'auto')
 option('wayland', type : 'combo', choices : ['auto', 'true', 'false'], value : 'auto')
 option('kms', type : 'combo', choices : ['auto', 'true', 'false'], value : 'auto')
+option('build-tests', type : 'boolean', value : false)
